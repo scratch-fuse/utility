@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '24'
           package-manager-cache: false
       
       - name: Install dependencies
@@ -48,14 +48,6 @@ jobs:
           
           # 修改 package.json 以移除 devDependencies 和构建脚本
           cd /tmp/build-output
-          cat package.json | node -e "
-            const pkg = JSON.parse(require('fs').readFileSync('/dev/stdin', 'utf8'));
-            delete pkg.devDependencies;
-            delete pkg.scripts;
-            pkg.scripts = {};
-            console.log(JSON.stringify(pkg, null, 2));
-          " > package.json.tmp
-          mv package.json.tmp package.json
           
           # 切换到 build 分支（孤儿分支）
           cd $GITHUB_WORKSPACE
